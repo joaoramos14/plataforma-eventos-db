@@ -6,12 +6,12 @@ Trabalho do **Desafio Final de Banco de Dados**, ministrado pelo Prof. MSc. Edga
 
 ## 👥 Equipe
 
-| Integrante | Responsável por |
-|---|---|
-| Erick Yuri Maba Silva | _a definir_ |
-| João Henrique Ramos | _a definir_ |
-| Joel | _a definir_ |
-| Lucas Indalencio Gonçalves de Lima | _a definir_ |
+| Integrante |
+|---|
+| Erick Yuri Maba Silva |
+| João Henrique Ramos |
+| Joel | 
+| Lucas Indalencio Gonçalves de Lima |
 
 ## 📌 O problema
 
