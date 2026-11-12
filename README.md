@@ -31,7 +31,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 ├── modelo.mwb                     # Modelo EER (MySQL Workbench)
 ├── der.png                        # DER exportado do Workbench        (pendente)
 ├── 01_ddl.sql                     # Criação do banco, tabelas, triggers e views
-├── 02_dml.sql                     # População do banco                (pendente)
+├── 02_dml.sql                     # População do banco
 ├── 03_consultas_validacao.sql     # Mínimo de 8 consultas             (pendente)
 ├── 04_consultas_avancadas.sql     # Mínimo de 5 perguntas do cliente  (pendente)
 ├── relatorio.pdf                  # Relatório de 3 a 5 páginas        (pendente)
@@ -47,7 +47,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 - [ ] **2. Modelagem:** exportar o DER atualizado (`der.png`).
 - [x] **3. Criação:** tabelas, restrições e triggers (`01_ddl.sql`).
 - [ ] **3. Criação:** 2 views (perguntas 1 e 5).
-- [ ] **4. População:** `02_dml.sql`, com no mínimo 50 registros.
+- [x] **4. População:** `02_dml.sql`, com 167 registros.
 - [ ] **5. Consultas de validação:** `03_consultas_validacao.sql`.
 - [ ] **6. Consultas avançadas:** `04_consultas_avancadas.sql`.
 - [ ] **7. Relatório:** `relatorio.pdf`.
