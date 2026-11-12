@@ -8,7 +8,7 @@ Trabalho do **Desafio Final de Banco de Dados**, ministrado pelo Prof. MSc. Edga
 
 | Integrante | Responsável por |
 |---|---|
-| Silva Erick Yuri Maba | _a definir_ |
+| Erick Yuri Maba Silva | _a definir_ |
 | João Henrique Ramos | _a definir_ |
 | Joel | _a definir_ |
 | Lucas Indalencio Gonçalves de Lima | _a definir_ |
