@@ -8,10 +8,10 @@ Trabalho do **Desafio Final de Banco de Dados**, ministrado pelo Prof. MSc. Edga
 
 | Integrante | Responsável por |
 |---|---|
-| Érik | _a definir_ |
-| João H. | _a definir_ |
+| Silva Erick Yuri Maba | _a definir_ |
+| João Henrique Ramos | _a definir_ |
 | Joel | _a definir_ |
-| Lucas I. | _a definir_ |
+| Lucas Indalencio Gonçalves de Lima | _a definir_ |
 
 ## 📌 O problema
 
