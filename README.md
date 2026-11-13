@@ -10,7 +10,7 @@ Trabalho do **Desafio Final de Banco de Dados**, ministrado pelo Prof. MSc. Edga
 |---|
 | Erick Yuri Maba Silva |
 | João Henrique Ramos |
-| Joel | 
+| Joel França da Cruz | 
 | Lucas Indalencio Gonçalves de Lima |
 
 ## 📌 O problema
