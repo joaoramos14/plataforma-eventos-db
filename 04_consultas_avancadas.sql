@@ -3,53 +3,9 @@
 
 USE db_eventos_plataforma;
 
--- View 1: Consolida a receita bruta dos ingressos ativos de compras pagas e calcula a taxa de 10% da plataforma por organizado
-CREATE VIEW vw_receita_por_organizador AS
-SELECT 
-    organizadores.id_organizador, 
-    organizadores.nome AS nome_organizador, 
-    COUNT(ingressos.id_ingresso) AS total_ingressos_vendidos, 
-    SUM(ingressos.valor_pago) AS receita_total_ingressos, 
-    ROUND(SUM(ingressos.valor_pago) * 0.10, 2) AS taxa_plataforma 
-FROM organizadores 
-INNER JOIN eventos 
-    ON eventos.id_organizador = organizadores.id_organizador 
-INNER JOIN lotes 
-    ON lotes.id_evento = eventos.id_evento 
-INNER JOIN ingressos 
-    ON ingressos.id_lote = lotes.id_lote 
-INNER JOIN compras 
-    ON compras.id_compra = ingressos.id_compra 
-WHERE compras.situacao = 'paga' 
-  AND ingressos.status_ingresso = 'ativo' 
-GROUP BY 
-    organizadores.id_organizador, 
-    organizadores.nome;
-    
-    
--- View 2: Consolida a quantidade de ingressos vendidos e o valor arrecadado agrupado por categoria do evento e tipo de ingresso
-CREATE VIEW vw_vendas_categoria_tipo_ingresso AS
-SELECT 
-    eventos.categoria AS categoria_evento, 
-    tipos_ingressos.nome_tipo AS tipo_ingresso, 
-    COUNT(ingressos.id_ingresso) AS quantidade_ingressos_vendidos, 
-    SUM(ingressos.valor_pago) AS valor_total_vendido 
-FROM eventos 
-INNER JOIN lotes 
-    ON lotes.id_evento = eventos.id_evento 
-INNER JOIN tipos_ingressos 
-    ON tipos_ingressos.id_tipo_ingresso = lotes.id_tipo_ingresso 
-INNER JOIN ingressos 
-    ON ingressos.id_lote = lotes.id_lote 
-INNER JOIN compras 
-    ON compras.id_compra = ingressos.id_compra 
-WHERE compras.situacao = 'paga' 
-  AND ingressos.status_ingresso = 'ativo' 
-GROUP BY 
-    eventos.categoria, 
-    tipos_ingressos.nome_tipo;
-    
 -- Pergunta 1: Qual a receita total de ingressos e a receita gerada pela taxa da plataforma (10%) por organizador, incluindo seus dados de contato?
+-- Por que importa: A taxa de 10% é o faturamento da Palco Aberto, e a receita mostra quanto repassar a cada organizador.
+-- Resultado esperado: 4 organizadores; Instituto Saber Tech lidera (R$ 2.025,00 em ingressos e R$ 202,50 de taxa). Rock Paraná Produções não aparece, pois não tem eventos.
 SELECT 
     vw_receita_por_organizador.id_organizador, 
     vw_receita_por_organizador.nome_organizador, 
@@ -65,6 +21,8 @@ ORDER BY
     vw_receita_por_organizador.receita_total_ingressos DESC;
     
 -- Pergunta 2: Quais eventos venderam mais de 70% de sua capacidade total de ingressos, ordenados pela maior taxa de ocupação?
+-- Por que importa: Mostra os eventos com alta procura, candidatos a novos lotes, novas edições ou locais maiores.
+-- Resultado esperado: 2 eventos: Workshop SQL na Prática (87,50%) e Workshop de Fotografia com Celular (80,00%).
 SELECT 
     eventos.id_evento, 
     eventos.nome AS nome_evento, 
@@ -94,6 +52,8 @@ ORDER BY
     taxa_ocupacao_pct DESC;
     
 -- Pergunta 3: Qual é a taxa de presença (porcentagem de check-ins realizados em relação aos ingressos vendidos) para cada evento?
+-- Por que importa: Mede quantos compradores realmente comparecem, o que ajuda a dimensionar equipe e estrutura nos próximos eventos.
+-- Resultado esperado: 5 eventos; Festival Noites de Verão e Workshop de Fotografia com 75,00%. A Feira Gastronômica aparece com 0,00%, pois ainda não aconteceu.
 SELECT 
     eventos.id_evento, 
     eventos.nome AS nome_evento, 
@@ -120,7 +80,9 @@ ORDER BY
     taxa_comparecimento_pct DESC, 
     ingressos_vendidos DESC;
     
--- Pergunta 4: Qual a atração com melhor nota média de avaliação, considerando apenas aquelas que participaram de mais de 1 evento? (A maior quantidade de avaliações é o critério de desempate).
+-- Pergunta 4: Quais as 5 atrações com maior nota média, considerando apenas as que participaram de mais de 1 evento? (A maior quantidade de avaliações é o critério de desempate).
+-- Por que importa: Ajuda a escolher atrações bem avaliadas e já testadas em mais de um evento para as próximas programações.
+-- Resultado esperado: 3 atrações: Prof. Ricardo Tanaka (4,40), Marcos Vieira (4,29) e Trio Serra Acima (4,25). Chef Paula Andrade não entra porque ainda não tem avaliações.
 SELECT 
     atracoes.id_atracao, 
     atracoes.nome_atracao, 
@@ -131,13 +93,11 @@ SELECT
 FROM atracoes 
 INNER JOIN evento_atracoes 
     ON evento_atracoes.id_atracao = atracoes.id_atracao 
-INNER JOIN eventos 
-    ON eventos.id_evento = evento_atracoes.id_evento 
-INNER JOIN lotes 
-    ON lotes.id_evento = eventos.id_evento 
-INNER JOIN ingressos 
+LEFT JOIN lotes 
+    ON lotes.id_evento = evento_atracoes.id_evento 
+LEFT JOIN ingressos 
     ON ingressos.id_lote = lotes.id_lote 
-INNER JOIN avaliacoes 
+LEFT JOIN avaliacoes 
     ON avaliacoes.id_ingresso = ingressos.id_ingresso 
 GROUP BY 
     atracoes.id_atracao, 
@@ -145,12 +105,15 @@ GROUP BY
     atracoes.tipo_atracao 
 HAVING 
     COUNT(DISTINCT evento_atracoes.id_evento) > 1 
+    AND COUNT(avaliacoes.id_avaliacao) > 0 
 ORDER BY 
     nota_media DESC,
     total_avaliacoes DESC 
-LIMIT 1;
+LIMIT 5;
 
 -- Pergunta 5: Qual é o total financeiro e a quantidade de ingressos vendidos por categoria de evento e tipo de ingresso, detalhando a descrição de cada tipo?
+-- Por que importa: Mostra quais combinações de categoria e tipo de ingresso geram mais receita, orientando preços e lotes.
+-- Resultado esperado: 8 combinações; Workshop / Inteira tem a maior quantidade (15 ingressos, R$ 1.560,00).
 SELECT 
     vw_vendas_categoria_tipo_ingresso.categoria_evento, 
     vw_vendas_categoria_tipo_ingresso.tipo_ingresso, 
@@ -165,6 +128,8 @@ ORDER BY
     vw_vendas_categoria_tipo_ingresso.valor_total_vendido DESC;
      
 -- Pergunta 6: Quais usuários compraram ingressos para terceiros (onde o CPF do participante registrado no ingresso é diferente do CPF do comprador) e quantos ingressos cada um comprou nessa condição?
+-- Por que importa: Identifica quem compra para grupos, público-alvo para promoções de pacotes e ingressos em grupo.
+-- Resultado esperado: 9 usuários; Larissa Gomes e Mariana Costa compraram 4 ingressos para terceiros cada.
 SELECT 
     usuarios.id_usuario, 
     usuarios.nome AS nome_comprador, 
