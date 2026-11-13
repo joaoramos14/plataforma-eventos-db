@@ -149,3 +149,47 @@ CREATE TABLE avaliacoes (
     CONSTRAINT fk_avaliacao_ingresso FOREIGN KEY (id_ingresso) REFERENCES ingressos(id_ingresso)
 );
 
+-- 15. View 1: Consolida a receita bruta dos ingressos ativos de compras pagas e calcula a taxa de 10% da plataforma por organizador (usada na pergunta 1)
+CREATE VIEW vw_receita_por_organizador AS
+SELECT
+    organizadores.id_organizador,
+    organizadores.nome AS nome_organizador,
+    COUNT(ingressos.id_ingresso) AS total_ingressos_vendidos,
+    SUM(ingressos.valor_pago) AS receita_total_ingressos,
+    ROUND(SUM(ingressos.valor_pago) * 0.10, 2) AS taxa_plataforma
+FROM organizadores
+INNER JOIN eventos
+    ON eventos.id_organizador = organizadores.id_organizador
+INNER JOIN lotes
+    ON lotes.id_evento = eventos.id_evento
+INNER JOIN ingressos
+    ON ingressos.id_lote = lotes.id_lote
+INNER JOIN compras
+    ON compras.id_compra = ingressos.id_compra
+WHERE compras.situacao = 'paga'
+  AND ingressos.status_ingresso = 'ativo'
+GROUP BY
+    organizadores.id_organizador,
+    organizadores.nome;
+
+-- 16. View 2: Consolida a quantidade de ingressos vendidos e o valor arrecadado agrupado por categoria do evento e tipo de ingresso (usada na pergunta 5)
+CREATE VIEW vw_vendas_categoria_tipo_ingresso AS
+SELECT
+    eventos.categoria AS categoria_evento,
+    tipos_ingressos.nome_tipo AS tipo_ingresso,
+    COUNT(ingressos.id_ingresso) AS quantidade_ingressos_vendidos,
+    SUM(ingressos.valor_pago) AS valor_total_vendido
+FROM eventos
+INNER JOIN lotes
+    ON lotes.id_evento = eventos.id_evento
+INNER JOIN tipos_ingressos
+    ON tipos_ingressos.id_tipo_ingresso = lotes.id_tipo_ingresso
+INNER JOIN ingressos
+    ON ingressos.id_lote = lotes.id_lote
+INNER JOIN compras
+    ON compras.id_compra = ingressos.id_compra
+WHERE compras.situacao = 'paga'
+  AND ingressos.status_ingresso = 'ativo'
+GROUP BY
+    eventos.categoria,
+    tipos_ingressos.nome_tipo;
