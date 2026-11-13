@@ -30,7 +30,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 ```
 ├── modelo.mwb                     # Modelo EER (MySQL Workbench)
 ├── der.png                        # DER exportado do Workbench        (pendente)
-├── 01_ddl.sql                     # Criação do banco, tabelas, triggers e views
+├── 01_ddl.sql                     # Criação do banco, tabelas e views
 ├── 02_dml.sql                     # População do banco
 ├── 03_consultas_validacao.sql     # 8 consultas de validação
 ├── 04_consultas_avancadas.sql     # Mínimo de 5 perguntas do cliente  (pendente)
@@ -45,7 +45,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 - [x] **1. Análise:** entidades, atributos, relacionamentos e regras (`docs/etapa1_analise.docx`).
 - [x] **2. Modelagem:** modelo no Workbench (`modelo.mwb`).
 - [ ] **2. Modelagem:** exportar o DER atualizado (`der.png`).
-- [x] **3. Criação:** tabelas, restrições e triggers (`01_ddl.sql`).
+- [x] **3. Criação:** tabelas e restrições (`01_ddl.sql`).
 - [ ] **3. Criação:** 2 views (perguntas 1 e 5).
 - [x] **4. População:** `02_dml.sql`, com 167 registros.
 - [x] **5. Consultas de validação:** `03_consultas_validacao.sql`, com 8 consultas.
@@ -78,7 +78,7 @@ São 14 tabelas:
 - `tipos_ingressos`, `lotes`, `compras`, `ingressos`;
 - `checkins`, `reembolsos`, `avaliacoes`.
 
-As regras que envolvem mais de uma tabela são garantidas por triggers:
+As regras que envolvem mais de uma tabela não são garantidas pelo banco e ficam a cargo da validação da aplicação (backend):
 
 - a capacidade do evento não passa a do local;
 - não é possível vender ingresso de um lote esgotado nem acima da capacidade do evento;
