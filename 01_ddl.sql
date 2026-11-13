@@ -51,7 +51,7 @@ CREATE TABLE eventos (
     nome VARCHAR(150) NOT NULL,
     categoria VARCHAR(50) NOT NULL,
     descricao TEXT NULL,
-    capacidade INT UNSIGNED NOT NULL CHECK (capacidade > 0), -- não pode exceder a capacidade do local (trigger)
+    capacidade INT UNSIGNED NOT NULL CHECK (capacidade > 0), -- não pode exceder a capacidade do local (validado pela aplicação)
     status VARCHAR(20) NOT NULL DEFAULT 'ativo' CHECK (status IN ('ativo', 'cancelado', 'encerrado')),
     CONSTRAINT fk_evento_organizador FOREIGN KEY (id_organizador) REFERENCES organizadores(id_organizador),
     CONSTRAINT fk_evento_local FOREIGN KEY (id_local) REFERENCES locais(id_local)
@@ -149,100 +149,3 @@ CREATE TABLE avaliacoes (
     CONSTRAINT fk_avaliacao_ingresso FOREIGN KEY (id_ingresso) REFERENCES ingressos(id_ingresso)
 );
 
--- Triggers (Regras de negócio que envolvem mais de uma tabela)
-DELIMITER $$
-
--- 15. Capacidade do evento não pode exceder a capacidade do local (inclusão)
-CREATE TRIGGER trg_evento_capacidade_ins
-BEFORE INSERT ON eventos
-FOR EACH ROW
-BEGIN
-    IF NEW.capacidade > (SELECT capacidade_maxima FROM locais WHERE id_local = NEW.id_local) THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Capacidade do evento excede a capacidade máxima do local.';
-    END IF;
-END$$
-
--- 16. Capacidade do evento não pode exceder a capacidade do local (alteração)
-CREATE TRIGGER trg_evento_capacidade_upd
-BEFORE UPDATE ON eventos
-FOR EACH ROW
-BEGIN
-    IF NEW.capacidade > (SELECT capacidade_maxima FROM locais WHERE id_local = NEW.id_local) THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Capacidade do evento excede a capacidade máxima do local.';
-    END IF;
-END$$
-
--- 17. Ingresso respeita a quantidade do lote e a capacidade do evento (só ingressos ativos)
-CREATE TRIGGER trg_ingresso_limites
-BEFORE INSERT ON ingressos
-FOR EACH ROW
-BEGIN
-    DECLARE v_id_evento INT UNSIGNED;
-    DECLARE v_quantidade_lote INT UNSIGNED;
-    DECLARE v_capacidade_evento INT UNSIGNED;
-    DECLARE v_vendidos_lote INT;
-    DECLARE v_vendidos_evento INT;
-
-    IF NEW.status_ingresso = 'ativo' THEN
-        SELECT l.id_evento, l.quantidade_total, e.capacidade
-          INTO v_id_evento, v_quantidade_lote, v_capacidade_evento
-          FROM lotes l
-          JOIN eventos e ON e.id_evento = l.id_evento
-         WHERE l.id_lote = NEW.id_lote;
-
-        SELECT COUNT(*) INTO v_vendidos_lote
-          FROM ingressos
-         WHERE id_lote = NEW.id_lote
-           AND status_ingresso = 'ativo';
-
-        IF v_vendidos_lote >= v_quantidade_lote THEN
-            SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Lote esgotado.';
-        END IF;
-
-        SELECT COUNT(*) INTO v_vendidos_evento
-          FROM ingressos i
-          JOIN lotes l ON l.id_lote = i.id_lote
-         WHERE l.id_evento = v_id_evento
-           AND i.status_ingresso = 'ativo';
-
-        IF v_vendidos_evento >= v_capacidade_evento THEN
-            SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Capacidade do evento esgotada.';
-        END IF;
-    END IF;
-END$$
-
--- 18. Check-in só com ingresso ativo e em sessão do mesmo evento do ingresso
-CREATE TRIGGER trg_checkin_valida
-BEFORE INSERT ON checkins
-FOR EACH ROW
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-          FROM ingressos i
-          JOIN lotes l ON l.id_lote = i.id_lote
-          JOIN sessoes s ON s.id_evento = l.id_evento
-         WHERE i.id_ingresso = NEW.id_ingresso
-           AND s.id_sessao = NEW.id_sessao
-           AND i.status_ingresso = 'ativo'
-    ) THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Check-in inválido: ingresso inativo ou sessão de outro evento.';
-    END IF;
-END$$
-
--- 19. Só participantes com check-in podem avaliar o evento
-CREATE TRIGGER trg_avaliacao_requer_checkin
-BEFORE INSERT ON avaliacoes
-FOR EACH ROW
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM checkins WHERE id_ingresso = NEW.id_ingresso) THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Avaliação permitida apenas para ingressos com check-in.';
-    END IF;
-END$$
-
-DELIMITER ;
