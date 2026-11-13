@@ -10,7 +10,7 @@ Trabalho do **Desafio Final de Banco de Dados**, ministrado pelo Prof. MSc. Edga
 |---|
 | Erick Yuri Maba Silva |
 | João Henrique Ramos |
-| Joel | 
+| Joel França da Cruz | 
 | Lucas Indalencio Gonçalves de Lima |
 
 ## 📌 O problema
@@ -33,7 +33,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 ├── 01_ddl.sql                     # Criação do banco, tabelas, triggers e views
 ├── 02_dml.sql                     # População do banco
 ├── 03_consultas_validacao.sql     # 8 consultas de validação
-├── 04_consultas_avancadas.sql     # Mínimo de 5 perguntas do cliente  (pendente)
+├── 04_consultas_avancadas.sql     # Mínimo de 5 perguntas do cliente
 ├── relatorio.pdf                  # Relatório de 3 a 5 páginas        (pendente)
 └── docs/
     ├── enunciado.pdf              # Enunciado do desafio
@@ -49,7 +49,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 - [ ] **3. Criação:** 2 views (perguntas 1 e 5).
 - [x] **4. População:** `02_dml.sql`, com 167 registros.
 - [x] **5. Consultas de validação:** `03_consultas_validacao.sql`, com 8 consultas.
-- [ ] **6. Consultas avançadas:** `04_consultas_avancadas.sql`.
+- [x] **6. Consultas avançadas:** `04_consultas_avancadas.sql`.
 - [ ] **7. Relatório:** `relatorio.pdf`.
 - [ ] **8. Pitch:** apresentação de 10 minutos.
 
