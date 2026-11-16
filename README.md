@@ -34,9 +34,10 @@ A organização segue a pasta de entrega pedida no enunciado.
 ├── 02_dml.sql                     # População do banco
 ├── 03_consultas_validacao.sql     # 8 consultas de validação
 ├── 04_consultas_avancadas.sql     # 6 perguntas do cliente
-├── relatorio.pdf                  # Relatório de 3 a 5 páginas        (pendente)
+├── relatorio.pdf                  # Relatório (5 páginas)
 └── docs/
     ├── enunciado.pdf              # Enunciado do desafio
+    ├── relatorio.docx             # Versão editável do relatório
     └── etapa1_analise.docx        # Etapa 1: entidades, atributos, relacionamentos e regras
 ```
 
@@ -50,7 +51,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 - [x] **4. População:** `02_dml.sql`, com 167 registros.
 - [x] **5. Consultas de validação:** `03_consultas_validacao.sql`, com 8 consultas.
 - [x] **6. Consultas avançadas:** `04_consultas_avancadas.sql`.
-- [ ] **7. Relatório:** `relatorio.pdf`.
+- [x] **7. Relatório:** `relatorio.pdf` (editável em `docs/relatorio.docx`).
 - [ ] **8. Pitch:** apresentação de 10 minutos.
 
 ## ▶️ Como executar
