@@ -25,20 +25,22 @@ Com esses dados, a empresa quer saber quais eventos vendem mais, a receita por o
 
 ## 🗂️ Estrutura do repositório
 
-A organização segue a pasta de entrega pedida no enunciado.
+A pasta `Equipe_PlataformaDeEventos/` é a pasta de entrega pedida no enunciado. O README e a pasta `docs/` são materiais de apoio da equipe e não fazem parte da entrega.
 
 ```
-├── modelo.mwb                     # Modelo EER (MySQL Workbench)
-├── der.png                        # DER exportado do Workbench
-├── 01_ddl.sql                     # Criação do banco, tabelas e views
-├── 02_dml.sql                     # População do banco
-├── 03_consultas_validacao.sql     # 8 consultas de validação
-├── 04_consultas_avancadas.sql     # 6 perguntas do cliente
-├── relatorio.pdf                  # Relatório (5 páginas)
-└── docs/
-    ├── enunciado.pdf              # Enunciado do desafio
-    ├── relatorio.docx             # Versão editável do relatório
-    └── etapa1_analise.docx        # Etapa 1: entidades, atributos, relacionamentos e regras
+├── Equipe_PlataformaDeEventos/
+│   ├── modelo.mwb                     # Modelo EER (MySQL Workbench)
+│   ├── der.png                        # DER exportado do Workbench
+│   ├── 01_ddl.sql                     # Criação do banco, tabelas e views
+│   ├── 02_dml.sql                     # População do banco
+│   ├── 03_consultas_validacao.sql     # 8 consultas de validação
+│   ├── 04_consultas_avancadas.sql     # 6 perguntas do cliente
+│   └── relatorio.pdf                  # Relatório (5 páginas)
+├── docs/
+│   ├── enunciado.pdf                  # Enunciado do desafio
+│   ├── relatorio.docx                 # Versão editável do relatório
+│   └── etapa1_analise.docx            # Etapa 1: entidades, atributos, relacionamentos e regras
+└── README.md
 ```
 
 ## ✅ Andamento
@@ -58,7 +60,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 
 Requer **MySQL 8.0.16 ou mais recente**; versões anteriores ignoram as restrições `CHECK`.
 
-Rodar sempre a partir de um banco limpo:
+Rodar sempre a partir de um banco limpo, de dentro da pasta `Equipe_PlataformaDeEventos/`:
 
 ```sql
 DROP DATABASE IF EXISTS db_eventos_plataforma;
