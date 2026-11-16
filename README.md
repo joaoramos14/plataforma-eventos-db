@@ -29,7 +29,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 
 ```
 ├── modelo.mwb                     # Modelo EER (MySQL Workbench)
-├── der.png                        # DER exportado do Workbench        (pendente)
+├── der.png                        # DER exportado do Workbench
 ├── 01_ddl.sql                     # Criação do banco, tabelas e views
 ├── 02_dml.sql                     # População do banco
 ├── 03_consultas_validacao.sql     # 8 consultas de validação
@@ -44,7 +44,7 @@ A organização segue a pasta de entrega pedida no enunciado.
 
 - [x] **1. Análise:** entidades, atributos, relacionamentos e regras (`docs/etapa1_analise.docx`).
 - [x] **2. Modelagem:** modelo no Workbench (`modelo.mwb`).
-- [ ] **2. Modelagem:** exportar o DER atualizado (`der.png`).
+- [x] **2. Modelagem:** DER exportado do Workbench (`der.png`).
 - [x] **3. Criação:** tabelas e restrições (`01_ddl.sql`).
 - [x] **3. Criação:** 2 views (perguntas 1 e 5).
 - [x] **4. População:** `02_dml.sql`, com 167 registros.
