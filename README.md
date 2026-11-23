@@ -50,7 +50,7 @@ A pasta `Equipe_PlataformaDeEventos/` é a pasta de entrega pedida no enunciado.
 - [x] **2. Modelagem:** DER exportado do Workbench (`der.png`).
 - [x] **3. Criação:** tabelas e restrições (`01_ddl.sql`).
 - [x] **3. Criação:** 2 views (perguntas 1 e 5).
-- [x] **4. População:** `02_dml.sql`, com 167 registros.
+- [x] **4. População:** `02_dml.sql`, com 177 registros.
 - [x] **5. Consultas de validação:** `03_consultas_validacao.sql`, com 8 consultas.
 - [x] **6. Consultas avançadas:** `04_consultas_avancadas.sql`.
 - [x] **7. Relatório:** `relatorio.pdf` (editável em `docs/relatorio.docx`).
